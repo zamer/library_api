@@ -10,7 +10,7 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 gem "bootsnap", require: false
 gem "redis", "~> 5.0"
 gem "sidekiq", "~> 7.2"
-gem "sidekiq-cron", "~> 1.12"
+gem "sidekiq-cron", "~> 2.4"
 gem "kaminari", ">= 1.3.3"
 
 group :development, :test do
