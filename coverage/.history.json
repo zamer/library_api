@@ -1,0 +1,319 @@
+{
+  "simplecov_history": {
+    "format_version": 1,
+    "entries": [
+      {
+        "created_at": "2026-11-19T01:35:23Z",
+        "branch": null,
+        "commit": null,
+        "totals": {
+          "line": 97.88
+        },
+        "groups": {
+          "Controllers": {
+            "line": 98.86
+          },
+          "Jobs": {
+            "line": 100.0
+          },
+          "Mailers": {
+            "line": 100.0
+          },
+          "Models": {
+            "line": 96.82
+          },
+          "Ungrouped": {
+            "line": 95.0
+          }
+        },
+        "files": {
+          "app/controllers/application_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/books_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/concerns/paginatable.rb": {
+            "line": 100.0
+          },
+          "app/controllers/concerns/sortable.rb": {
+            "line": 100.0
+          },
+          "app/controllers/loans_controller.rb": {
+            "line": 95.23
+          },
+          "app/jobs/application_job.rb": {
+            "line": 100.0
+          },
+          "app/jobs/send_due_reminders_job.rb": {
+            "line": 100.0
+          },
+          "app/mailers/loan_mailer.rb": {
+            "line": 100.0
+          },
+          "app/models/application_record.rb": {
+            "line": 100.0
+          },
+          "app/models/book.rb": {
+            "line": 100.0
+          },
+          "app/models/concerns/system_generated_number.rb": {
+            "line": 90.47
+          },
+          "app/models/loan.rb": {
+            "line": 100.0
+          },
+          "app/models/reader.rb": {
+            "line": 100.0
+          },
+          "app/presenters/application_presenter.rb": {
+            "line": 66.66
+          },
+          "app/presenters/book_presenter.rb": {
+            "line": 100.0
+          },
+          "app/presenters/loan_presenter.rb": {
+            "line": 100.0
+          },
+          "app/presenters/reader_presenter.rb": {
+            "line": 100.0
+          }
+        }
+      },
+      {
+        "created_at": "2026-11-19T01:35:56Z",
+        "branch": null,
+        "commit": null,
+        "totals": {
+          "line": 97.88
+        },
+        "groups": {
+          "Controllers": {
+            "line": 98.86
+          },
+          "Jobs": {
+            "line": 100.0
+          },
+          "Mailers": {
+            "line": 100.0
+          },
+          "Models": {
+            "line": 96.82
+          },
+          "Ungrouped": {
+            "line": 95.0
+          }
+        },
+        "files": {
+          "app/controllers/application_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/books_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/concerns/paginatable.rb": {
+            "line": 100.0
+          },
+          "app/controllers/concerns/sortable.rb": {
+            "line": 100.0
+          },
+          "app/controllers/loans_controller.rb": {
+            "line": 95.23
+          },
+          "app/jobs/application_job.rb": {
+            "line": 100.0
+          },
+          "app/jobs/send_due_reminders_job.rb": {
+            "line": 100.0
+          },
+          "app/mailers/loan_mailer.rb": {
+            "line": 100.0
+          },
+          "app/models/application_record.rb": {
+            "line": 100.0
+          },
+          "app/models/book.rb": {
+            "line": 100.0
+          },
+          "app/models/concerns/system_generated_number.rb": {
+            "line": 90.47
+          },
+          "app/models/loan.rb": {
+            "line": 100.0
+          },
+          "app/models/reader.rb": {
+            "line": 100.0
+          },
+          "app/presenters/application_presenter.rb": {
+            "line": 66.66
+          },
+          "app/presenters/book_presenter.rb": {
+            "line": 100.0
+          },
+          "app/presenters/loan_presenter.rb": {
+            "line": 100.0
+          },
+          "app/presenters/reader_presenter.rb": {
+            "line": 100.0
+          }
+        }
+      },
+      {
+        "created_at": "2026-11-19T01:36:56Z",
+        "branch": null,
+        "commit": null,
+        "totals": {
+          "line": 97.88
+        },
+        "groups": {
+          "Controllers": {
+            "line": 98.86
+          },
+          "Jobs": {
+            "line": 100.0
+          },
+          "Mailers": {
+            "line": 100.0
+          },
+          "Models": {
+            "line": 96.82
+          },
+          "Ungrouped": {
+            "line": 95.0
+          }
+        },
+        "files": {
+          "app/controllers/application_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/books_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/concerns/paginatable.rb": {
+            "line": 100.0
+          },
+          "app/controllers/concerns/sortable.rb": {
+            "line": 100.0
+          },
+          "app/controllers/loans_controller.rb": {
+            "line": 95.23
+          },
+          "app/jobs/application_job.rb": {
+            "line": 100.0
+          },
+          "app/jobs/send_due_reminders_job.rb": {
+            "line": 100.0
+          },
+          "app/mailers/loan_mailer.rb": {
+            "line": 100.0
+          },
+          "app/models/application_record.rb": {
+            "line": 100.0
+          },
+          "app/models/book.rb": {
+            "line": 100.0
+          },
+          "app/models/concerns/system_generated_number.rb": {
+            "line": 90.47
+          },
+          "app/models/loan.rb": {
+            "line": 100.0
+          },
+          "app/models/reader.rb": {
+            "line": 100.0
+          },
+          "app/presenters/application_presenter.rb": {
+            "line": 66.66
+          },
+          "app/presenters/book_presenter.rb": {
+            "line": 100.0
+          },
+          "app/presenters/loan_presenter.rb": {
+            "line": 100.0
+          },
+          "app/presenters/reader_presenter.rb": {
+            "line": 100.0
+          }
+        }
+      },
+      {
+        "created_at": "2026-11-19T09:40:33Z",
+        "branch": null,
+        "commit": null,
+        "totals": {
+          "line": 97.88
+        },
+        "groups": {
+          "Controllers": {
+            "line": 98.86
+          },
+          "Jobs": {
+            "line": 100.0
+          },
+          "Mailers": {
+            "line": 100.0
+          },
+          "Models": {
+            "line": 96.82
+          },
+          "Ungrouped": {
+            "line": 95.0
+          }
+        },
+        "files": {
+          "app/controllers/application_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/books_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/concerns/paginatable.rb": {
+            "line": 100.0
+          },
+          "app/controllers/concerns/sortable.rb": {
+            "line": 100.0
+          },
+          "app/controllers/loans_controller.rb": {
+            "line": 95.23
+          },
+          "app/jobs/application_job.rb": {
+            "line": 100.0
+          },
+          "app/jobs/send_due_reminders_job.rb": {
+            "line": 100.0
+          },
+          "app/mailers/loan_mailer.rb": {
+            "line": 100.0
+          },
+          "app/models/application_record.rb": {
+            "line": 100.0
+          },
+          "app/models/book.rb": {
+            "line": 100.0
+          },
+          "app/models/concerns/system_generated_number.rb": {
+            "line": 90.47
+          },
+          "app/models/loan.rb": {
+            "line": 100.0
+          },
+          "app/models/reader.rb": {
+            "line": 100.0
+          },
+          "app/presenters/application_presenter.rb": {
+            "line": 66.66
+          },
+          "app/presenters/book_presenter.rb": {
+            "line": 100.0
+          },
+          "app/presenters/loan_presenter.rb": {
+            "line": 100.0
+          },
+          "app/presenters/reader_presenter.rb": {
+            "line": 100.0
+          }
+        }
+      }
+    ]
+  }
+}

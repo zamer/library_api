@@ -1,0 +1,1376 @@
+{
+  "$schema": "https://raw.githubusercontent.com/simplecov-ruby/simplecov/main/schemas/coverage-v1.3.schema.json",
+  "meta": {
+    "schema_version": "1.3",
+    "simplecov_version": "1.3.2",
+    "command_name": "RSpec",
+    "command_names": [
+      "RSpec"
+    ],
+    "project_name": "App",
+    "timestamp": "2026-11-19T09:40:33.145+00:00",
+    "root": "/app",
+    "commit": null,
+    "primary_coverage": "line",
+    "line_coverage": true,
+    "branch_coverage": false,
+    "method_coverage": false
+  },
+  "total": {
+    "lines": {
+      "covered": 185,
+      "missed": 4,
+      "omitted": 193,
+      "total": 189,
+      "percent": 97.88359788359789,
+      "strength": 8.507936507936508
+    }
+  },
+  "coverage": {
+    "app/controllers/application_controller.rb": {
+      "source": [
+        "class ApplicationController < ActionController::API",
+        "  include Paginatable",
+        "  include Sortable",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        1,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 3,
+      "missed_lines": 0,
+      "omitted_lines": 1,
+      "total_lines": 3
+    },
+    "app/controllers/books_controller.rb": {
+      "source": [
+        "class BooksController < ApplicationController",
+        "  before_action :set_book, only: %i[show destroy]",
+        "",
+        "  BOOKS_SORTABLE = {",
+        "    \"serial_number\" => :serial_number,",
+        "    \"title\" => :title,",
+        "    \"author\" => :author,",
+        "    \"created_at\" => :created_at",
+        "  }.freeze",
+        "",
+        "  LOANS_SORTABLE = {",
+        "    \"borrowed_at\" => :borrowed_at,",
+        "    \"due_at\" => :due_at,",
+        "    \"returned_at\" => :returned_at",
+        "  }.freeze",
+        "",
+        "  # GET /books",
+        "  def index",
+        "    books = Book.all",
+        "    books = filter_by_status(books, params[:status])",
+        "    books = apply_sort(books, allowed: BOOKS_SORTABLE, default_sort: :serial_number, default_order: \"asc\")",
+        "    books = paginate(books)",
+        "",
+        "    page = books.to_a",
+        "    active_loans = Loan.active.includes(:reader).where(book_id: page.map(&:id)).index_by(&:book_id)",
+        "",
+        "    render json: {",
+        "      data: page.map { |b| BookPresenter.new(b, current_loan: active_loans[b.id]).as_json },",
+        "      meta: pagination_meta(books)",
+        "    }",
+        "  end",
+        "",
+        "  # GET /books/:id",
+        "  def show",
+        "    loans = @book.loans.includes(:reader)",
+        "    loans = apply_sort(loans, allowed: LOANS_SORTABLE, default_sort: :borrowed_at, default_order: \"desc\")",
+        "    loans = paginate(loans)",
+        "",
+        "    render json: BookPresenter.new(@book).as_json.merge(",
+        "      loans: loans.map { |l| LoanPresenter.new(l).as_json },",
+        "      loans_meta: pagination_meta(loans)",
+        "    )",
+        "  end",
+        "",
+        "  # POST /books",
+        "  def create",
+        "    if params.dig(:book, :serial_number).present?",
+        "      return render json: {",
+        "        error: \"serial_number is generated automatically and cannot be provided\"",
+        "      }, status: :bad_request",
+        "    end",
+        "",
+        "    book = Book.new(book_params)",
+        "    if book.save",
+        "      render json: BookPresenter.new(book, current_loan: nil).as_json, status: :created",
+        "    else",
+        "      render json: { errors: book.errors.full_messages }, status: :unprocessable_entity",
+        "    end",
+        "  end",
+        "",
+        "  # DELETE /books/:id",
+        "  def destroy",
+        "    if @book.loans.active.exists?",
+        "      return render json: { error: \"Cannot delete a currently borrowed book\" },",
+        "                    status: :conflict",
+        "    end",
+        "    @book.destroy",
+        "    head :no_content",
+        "  end",
+        "",
+        "  private",
+        "",
+        "  def set_book",
+        "    @book = Book.find_by(serial_number: params[:id])",
+        "    render json: { error: \"Book not found\" }, status: :not_found unless @book",
+        "  end",
+        "",
+        "  def book_params",
+        "    params.require(:book).permit(:title, :author)",
+        "  end",
+        "",
+        "  def filter_by_status(collection, status)",
+        "    case status.to_s",
+        "    when \"available\"",
+        "      collection.where.not(id: Loan.active.select(:book_id))",
+        "    when \"borrowed\"",
+        "      collection.where(id: Loan.active.select(:book_id))",
+        "    else",
+        "      collection",
+        "    end",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        8,
+        8,
+        8,
+        8,
+        null,
+        8,
+        8,
+        null,
+        8,
+        20,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        2,
+        2,
+        2,
+        null,
+        2,
+        4,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        3,
+        1,
+        null,
+        null,
+        null,
+        null,
+        2,
+        2,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
+        2,
+        1,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        1,
+        5,
+        5,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null,
+        1,
+        8,
+        null,
+        1,
+        null,
+        1,
+        null,
+        6,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 42,
+      "missed_lines": 0,
+      "omitted_lines": 50,
+      "total_lines": 42
+    },
+    "app/controllers/concerns/paginatable.rb": {
+      "source": [
+        "# app/controllers/concerns/paginatable.rb",
+        "module Paginatable",
+        "  extend ActiveSupport::Concern",
+        "",
+        "  DEFAULT_PER_PAGE = 20",
+        "  MAX_PER_PAGE = 100",
+        "",
+        "  private",
+        "",
+        "  def paginate(collection)",
+        "    collection.page(params[:page]).per(per_page_param)",
+        "  end",
+        "",
+        "  def per_page_param",
+        "    value = params[:per_page].to_i",
+        "    return DEFAULT_PER_PAGE if value <= 0",
+        "",
+        "    [ value, MAX_PER_PAGE ].min",
+        "  end",
+        "",
+        "  def pagination_meta(collection)",
+        "    {",
+        "      current_page: collection.current_page,",
+        "      per_page: collection.limit_value,",
+        "      total_pages: collection.total_pages,",
+        "      total_count: collection.total_count",
+        "    }",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        null,
+        1,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        10,
+        null,
+        null,
+        1,
+        10,
+        10,
+        null,
+        2,
+        null,
+        null,
+        1,
+        null,
+        10,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 13,
+      "missed_lines": 0,
+      "omitted_lines": 16,
+      "total_lines": 13
+    },
+    "app/controllers/concerns/sortable.rb": {
+      "source": [
+        "# app/controllers/concerns/sortable.rb",
+        "module Sortable",
+        "  extend ActiveSupport::Concern",
+        "",
+        "  private",
+        "",
+        "  # collection — ActiveRecord::Relation",
+        "  # allowed — Hash: { \"param_value\" => \"column_name\" }",
+        "  # default_sort — String, default_order — \"asc\"/\"desc\"",
+        "  def apply_sort(collection, allowed:, default_sort:, default_order: \"asc\")",
+        "    sort = params[:sort].to_s",
+        "    order = params[:order].to_s.downcase",
+        "",
+        "    column = allowed[sort] || default_sort",
+        "    direction = %w[asc desc].include?(order) ? order : default_order",
+        "",
+        "    collection.order(column => direction)",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        null,
+        1,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
+        10,
+        10,
+        null,
+        10,
+        10,
+        null,
+        10,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 9,
+      "missed_lines": 0,
+      "omitted_lines": 10,
+      "total_lines": 9
+    },
+    "app/controllers/loans_controller.rb": {
+      "source": [
+        "class LoansController < ApplicationController",
+        "  def create",
+        "    book = Book.find_by(serial_number: params[:book_id])",
+        "    return render json: { error: \"Book not found\" }, status: :not_found unless book",
+        "",
+        "    if book.borrowed?",
+        "      return render json: { error: \"Book is already borrowed\" }, status: :conflict",
+        "    end",
+        "",
+        "    if params[:card_number].blank? && params[:email].blank?",
+        "      return render json: { error: \"Either card_number or email is required\" },",
+        "                    status: :bad_request",
+        "    end",
+        "",
+        "    reader = Reader.find_by_identifier(",
+        "      card_number: params[:card_number],",
+        "      email: params[:email]",
+        "    )",
+        "    return render json: { error: \"Reader not found\" }, status: :not_found unless reader",
+        "",
+        "    loan = Loan.new(book: book, reader: reader, borrowed_at: Time.current)",
+        "    if loan.save",
+        "      render json: LoanPresenter.new(loan).as_json, status: :created",
+        "    else",
+        "      render json: { errors: loan.errors.full_messages }, status: :unprocessable_entity",
+        "    end",
+        "  end",
+        "",
+        "  def return",
+        "    loan = Loan.find_by(id: params[:id])",
+        "    return render json: { error: \"Loan not found\" }, status: :not_found unless loan",
+        "",
+        "    if loan.returned?",
+        "      return render json: { error: \"Loan already returned\" }, status: :conflict",
+        "    end",
+        "",
+        "    loan.update!(returned_at: Time.current)",
+        "    render json: LoanPresenter.new(loan).as_json",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        14,
+        14,
+        null,
+        12,
+        2,
+        null,
+        null,
+        10,
+        2,
+        null,
+        null,
+        null,
+        8,
+        null,
+        null,
+        null,
+        8,
+        null,
+        6,
+        6,
+        6,
+        null,
+        0,
+        null,
+        null,
+        null,
+        1,
+        7,
+        7,
+        null,
+        5,
+        2,
+        null,
+        null,
+        3,
+        3,
+        null,
+        null
+      ],
+      "lines_covered_percent": 95.23809523809524,
+      "covered_lines": 20,
+      "missed_lines": 1,
+      "omitted_lines": 19,
+      "total_lines": 21
+    },
+    "app/jobs/application_job.rb": {
+      "source": [
+        "class ApplicationJob < ActiveJob::Base",
+        "  # Automatically retry jobs that encountered a deadlock",
+        "  # retry_on ActiveRecord::Deadlocked",
+        "",
+        "  # Most jobs are safe to ignore if the underlying records are no longer available",
+        "  # discard_on ActiveJob::DeserializationError",
+        "end"
+      ],
+      "lines": [
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 1,
+      "missed_lines": 0,
+      "omitted_lines": 6,
+      "total_lines": 1
+    },
+    "app/jobs/send_due_reminders_job.rb": {
+      "source": [
+        "class SendDueRemindersJob < ApplicationJob",
+        "  queue_as :default",
+        "",
+        "  def perform",
+        "    Loan.due_in_3_days.find_each { |loan| LoanMailer.reminder_3_days(loan).deliver_later }",
+        "    Loan.due_on(Date.current).find_each { |loan| LoanMailer.due_today(loan).deliver_later }",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        null,
+        1,
+        5,
+        5,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 5,
+      "missed_lines": 0,
+      "omitted_lines": 3,
+      "total_lines": 5
+    },
+    "app/mailers/loan_mailer.rb": {
+      "source": [
+        "class LoanMailer < ApplicationMailer",
+        "  default from: \"library@example.com\"",
+        "",
+        "  def reminder_3_days(loan)",
+        "    @loan = loan",
+        "    @reader = loan.reader",
+        "    @book = loan.book",
+        "    mail(to: @reader.email, subject: \"Reminder: return '#{@book.title}' in 3 days\")",
+        "  end",
+        "",
+        "  def due_today(loan)",
+        "    @loan = loan",
+        "    @reader = loan.reader",
+        "    @book = loan.book",
+        "    mail(to: @reader.email, subject: \"Due today: '#{@book.title}'\")",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        null,
+        1,
+        2,
+        2,
+        2,
+        2,
+        null,
+        null,
+        1,
+        2,
+        2,
+        2,
+        2,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 12,
+      "missed_lines": 0,
+      "omitted_lines": 5,
+      "total_lines": 12
+    },
+    "app/models/application_record.rb": {
+      "source": [
+        "class ApplicationRecord < ActiveRecord::Base",
+        "  primary_abstract_class",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 2,
+      "missed_lines": 0,
+      "omitted_lines": 1,
+      "total_lines": 2
+    },
+    "app/models/book.rb": {
+      "source": [
+        "class Book < ApplicationRecord",
+        "  include SystemGeneratedNumber",
+        "",
+        "  has_many :loans, dependent: :destroy",
+        "",
+        "  system_generated_number :serial_number",
+        "",
+        "  validates :title, :author, presence: true",
+        "",
+        "  def current_loan",
+        "    loans.where(returned_at: nil).order(borrowed_at: :desc).first",
+        "  end",
+        "",
+        "  def borrowed?",
+        "    current_loan.present?",
+        "  end",
+        "",
+        "  def available?",
+        "    !borrowed?",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        1,
+        22,
+        null,
+        null,
+        1,
+        16,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 11,
+      "missed_lines": 0,
+      "omitted_lines": 10,
+      "total_lines": 11
+    },
+    "app/models/concerns/system_generated_number.rb": {
+      "source": [
+        "# Number genereted with Postgres sequence.",
+        "module SystemGeneratedNumber",
+        "  extend ActiveSupport::Concern",
+        "",
+        "  included do",
+        "    before_create :assign_system_generated_number",
+        "  end",
+        "",
+        "  class_methods do",
+        "    def system_generated_number(field)",
+        "      @system_generated_number_field = field",
+        "",
+        "      define_method(\"#{field}=\") do |_value|",
+        "        # no operation",
+        "      end",
+        "    end",
+        "",
+        "    def system_generated_number_field",
+        "      @system_generated_number_field",
+        "    end",
+        "  end",
+        "",
+        "  private",
+        "",
+        "  def assign_system_generated_number",
+        "    field = self.class.system_generated_number_field",
+        "    return unless field",
+        "",
+        "    value = self.class.connection.select_value(",
+        "      \"SELECT lpad(nextval('#{sequence_name_for(field)}')::text, 6, '0')\"",
+        "    )",
+        "    write_attribute(field, value)",
+        "  rescue ActiveRecord::StatementInvalid => e",
+        "    errors.add(field, \"could not be generated: #{e.message}\")",
+        "    throw :abort",
+        "  end",
+        "",
+        "  def sequence_name_for(field)",
+        "    table = self.class.table_name",
+        "",
+        "    \"#{table}_#{field}_seq\"",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        null,
+        1,
+        1,
+        null,
+        1,
+        2,
+        null,
+        null,
+        1,
+        1,
+        2,
+        null,
+        2,
+        null,
+        null,
+        null,
+        null,
+        1,
+        116,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        116,
+        116,
+        null,
+        116,
+        null,
+        null,
+        116,
+        null,
+        0,
+        0,
+        null,
+        null,
+        1,
+        116,
+        null,
+        116,
+        null,
+        null
+      ],
+      "lines_covered_percent": 90.47619047619048,
+      "covered_lines": 19,
+      "missed_lines": 2,
+      "omitted_lines": 22,
+      "total_lines": 21
+    },
+    "app/models/loan.rb": {
+      "source": [
+        "class Loan < ApplicationRecord",
+        "  LOAN_DURATION = 30.days",
+        "  REMINDER_WINDOW = 3.days",
+        "",
+        "  belongs_to :book",
+        "  belongs_to :reader",
+        "",
+        "  validates :borrowed_at, :due_at, presence: true",
+        "",
+        "  before_validation :set_due_date, on: :create",
+        "",
+        "  scope :active, -> { where(returned_at: nil) }",
+        "  scope :due_on, ->(date) { active.where(due_at: date.all_day) }",
+        "  scope :due_in_3_days, -> { active.where(due_at: 3.days.from_now.all_day) }",
+        "",
+        "  def active?",
+        "    returned_at.nil?",
+        "  end",
+        "",
+        "  def returned?",
+        "    !active?",
+        "  end",
+        "",
+        "  private",
+        "",
+        "  def set_due_date",
+        "    self.borrowed_at ||= Time.current",
+        "    self.due_at ||= borrowed_at + LOAN_DURATION",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        21,
+        5,
+        5,
+        null,
+        1,
+        5,
+        null,
+        null,
+        1,
+        5,
+        null,
+        null,
+        1,
+        null,
+        1,
+        33,
+        33,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 18,
+      "missed_lines": 0,
+      "omitted_lines": 12,
+      "total_lines": 18
+    },
+    "app/models/reader.rb": {
+      "source": [
+        "class Reader < ApplicationRecord",
+        "  include SystemGeneratedNumber",
+        "",
+        "  has_many :loans, dependent: :restrict_with_error",
+        "",
+        "  system_generated_number :card_number",
+        "",
+        "  validates :full_name, presence: true",
+        "  validates :email, presence: true,",
+        "            uniqueness: { case_sensitive: false },",
+        "            format: { with: URI::MailTo::EMAIL_REGEXP }",
+        "",
+        "  def self.find_by_identifier(card_number: nil, email: nil)",
+        "    if card_number.present?",
+        "      find_by(card_number: card_number)",
+        "    elsif email.present?",
+        "      find_by(email: email)",
+        "    end",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        13,
+        9,
+        4,
+        3,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 11,
+      "missed_lines": 0,
+      "omitted_lines": 9,
+      "total_lines": 11
+    },
+    "app/presenters/application_presenter.rb": {
+      "source": [
+        "class ApplicationPresenter",
+        "  def self.collection(models, **options)",
+        "    models.map { |m| new(m, **options).as_json }",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        0,
+        null,
+        null
+      ],
+      "lines_covered_percent": 66.66666666666667,
+      "covered_lines": 2,
+      "missed_lines": 1,
+      "omitted_lines": 2,
+      "total_lines": 3
+    },
+    "app/presenters/book_presenter.rb": {
+      "source": [
+        "class BookPresenter < ApplicationPresenter",
+        "  def initialize(book, current_loan: :not_provided)",
+        "    @book = book",
+        "    @current_loan = current_loan == :not_provided ? book.current_loan : current_loan",
+        "  end",
+        "",
+        "  def as_json",
+        "    {",
+        "      serial_number: @book.serial_number,",
+        "      title: @book.title,",
+        "      author: @book.author,",
+        "      status: @current_loan ? \"borrowed\" : \"available\",",
+        "      current_loan: @current_loan && LoanPresenter.new(@current_loan).as_json",
+        "    }",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        25,
+        25,
+        null,
+        null,
+        1,
+        null,
+        25,
+        null,
+        null,
+        25,
+        null,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 7,
+      "missed_lines": 0,
+      "omitted_lines": 9,
+      "total_lines": 7
+    },
+    "app/presenters/loan_presenter.rb": {
+      "source": [
+        "class LoanPresenter < ApplicationPresenter",
+        "  def initialize(loan)",
+        "    @loan = loan",
+        "  end",
+        "",
+        "  def as_json",
+        "    {",
+        "      id: @loan.id,",
+        "      borrowed_at: @loan.borrowed_at,",
+        "      due_at: @loan.due_at,",
+        "      returned_at: @loan.returned_at,",
+        "      reader: ReaderPresenter.new(@loan.reader).as_json",
+        "    }",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        16,
+        null,
+        null,
+        1,
+        null,
+        16,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 5,
+      "missed_lines": 0,
+      "omitted_lines": 10,
+      "total_lines": 5
+    },
+    "app/presenters/reader_presenter.rb": {
+      "source": [
+        "class ReaderPresenter < ApplicationPresenter",
+        "  def initialize(reader)",
+        "    @reader = reader",
+        "  end",
+        "",
+        "  def as_json",
+        "    {",
+        "      card_number: @reader.card_number,",
+        "      full_name: @reader.full_name,",
+        "      email: @reader.email",
+        "    }",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        16,
+        null,
+        null,
+        1,
+        null,
+        16,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 5,
+      "missed_lines": 0,
+      "omitted_lines": 8,
+      "total_lines": 5
+    }
+  },
+  "groups": {
+    "Controllers": {
+      "lines": {
+        "covered": 87,
+        "missed": 1,
+        "omitted": 96,
+        "total": 88,
+        "percent": 98.86363636363636,
+        "strength": 4.181818181818182
+      },
+      "files": [
+        "app/controllers/application_controller.rb",
+        "app/controllers/books_controller.rb",
+        "app/controllers/concerns/paginatable.rb",
+        "app/controllers/concerns/sortable.rb",
+        "app/controllers/loans_controller.rb"
+      ]
+    },
+    "Jobs": {
+      "lines": {
+        "covered": 6,
+        "missed": 0,
+        "omitted": 9,
+        "total": 6,
+        "percent": 100.0,
+        "strength": 2.3333333333333335
+      },
+      "files": [
+        "app/jobs/application_job.rb",
+        "app/jobs/send_due_reminders_job.rb"
+      ]
+    },
+    "Mailers": {
+      "lines": {
+        "covered": 12,
+        "missed": 0,
+        "omitted": 5,
+        "total": 12,
+        "percent": 100.0,
+        "strength": 1.6666666666666667
+      },
+      "files": [
+        "app/mailers/loan_mailer.rb"
+      ]
+    },
+    "Models": {
+      "lines": {
+        "covered": 61,
+        "missed": 2,
+        "omitted": 54,
+        "total": 63,
+        "percent": 96.82539682539682,
+        "strength": 16.365079365079364
+      },
+      "files": [
+        "app/models/application_record.rb",
+        "app/models/book.rb",
+        "app/models/concerns/system_generated_number.rb",
+        "app/models/loan.rb",
+        "app/models/reader.rb"
+      ]
+    },
+    "Ungrouped": {
+      "lines": {
+        "covered": 19,
+        "missed": 1,
+        "omitted": 29,
+        "total": 20,
+        "percent": 95.0,
+        "strength": 8.75
+      },
+      "files": [
+        "app/presenters/application_presenter.rb",
+        "app/presenters/book_presenter.rb",
+        "app/presenters/loan_presenter.rb",
+        "app/presenters/reader_presenter.rb"
+      ]
+    }
+  },
+  "errors": {},
+  "history": [
+    {
+      "created_at": "2026-11-19T01:35:23Z",
+      "branch": null,
+      "commit": null,
+      "totals": {
+        "line": 97.88
+      },
+      "groups": {
+        "Controllers": {
+          "line": 98.86
+        },
+        "Jobs": {
+          "line": 100.0
+        },
+        "Mailers": {
+          "line": 100.0
+        },
+        "Models": {
+          "line": 96.82
+        },
+        "Ungrouped": {
+          "line": 95.0
+        }
+      },
+      "files": {
+        "app/controllers/application_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/books_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/concerns/paginatable.rb": {
+          "line": 100.0
+        },
+        "app/controllers/concerns/sortable.rb": {
+          "line": 100.0
+        },
+        "app/controllers/loans_controller.rb": {
+          "line": 95.23
+        },
+        "app/jobs/application_job.rb": {
+          "line": 100.0
+        },
+        "app/jobs/send_due_reminders_job.rb": {
+          "line": 100.0
+        },
+        "app/mailers/loan_mailer.rb": {
+          "line": 100.0
+        },
+        "app/models/application_record.rb": {
+          "line": 100.0
+        },
+        "app/models/book.rb": {
+          "line": 100.0
+        },
+        "app/models/concerns/system_generated_number.rb": {
+          "line": 90.47
+        },
+        "app/models/loan.rb": {
+          "line": 100.0
+        },
+        "app/models/reader.rb": {
+          "line": 100.0
+        },
+        "app/presenters/application_presenter.rb": {
+          "line": 66.66
+        },
+        "app/presenters/book_presenter.rb": {
+          "line": 100.0
+        },
+        "app/presenters/loan_presenter.rb": {
+          "line": 100.0
+        },
+        "app/presenters/reader_presenter.rb": {
+          "line": 100.0
+        }
+      }
+    },
+    {
+      "created_at": "2026-11-19T01:35:56Z",
+      "branch": null,
+      "commit": null,
+      "totals": {
+        "line": 97.88
+      },
+      "groups": {
+        "Controllers": {
+          "line": 98.86
+        },
+        "Jobs": {
+          "line": 100.0
+        },
+        "Mailers": {
+          "line": 100.0
+        },
+        "Models": {
+          "line": 96.82
+        },
+        "Ungrouped": {
+          "line": 95.0
+        }
+      },
+      "files": {
+        "app/controllers/application_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/books_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/concerns/paginatable.rb": {
+          "line": 100.0
+        },
+        "app/controllers/concerns/sortable.rb": {
+          "line": 100.0
+        },
+        "app/controllers/loans_controller.rb": {
+          "line": 95.23
+        },
+        "app/jobs/application_job.rb": {
+          "line": 100.0
+        },
+        "app/jobs/send_due_reminders_job.rb": {
+          "line": 100.0
+        },
+        "app/mailers/loan_mailer.rb": {
+          "line": 100.0
+        },
+        "app/models/application_record.rb": {
+          "line": 100.0
+        },
+        "app/models/book.rb": {
+          "line": 100.0
+        },
+        "app/models/concerns/system_generated_number.rb": {
+          "line": 90.47
+        },
+        "app/models/loan.rb": {
+          "line": 100.0
+        },
+        "app/models/reader.rb": {
+          "line": 100.0
+        },
+        "app/presenters/application_presenter.rb": {
+          "line": 66.66
+        },
+        "app/presenters/book_presenter.rb": {
+          "line": 100.0
+        },
+        "app/presenters/loan_presenter.rb": {
+          "line": 100.0
+        },
+        "app/presenters/reader_presenter.rb": {
+          "line": 100.0
+        }
+      }
+    },
+    {
+      "created_at": "2026-11-19T01:36:56Z",
+      "branch": null,
+      "commit": null,
+      "totals": {
+        "line": 97.88
+      },
+      "groups": {
+        "Controllers": {
+          "line": 98.86
+        },
+        "Jobs": {
+          "line": 100.0
+        },
+        "Mailers": {
+          "line": 100.0
+        },
+        "Models": {
+          "line": 96.82
+        },
+        "Ungrouped": {
+          "line": 95.0
+        }
+      },
+      "files": {
+        "app/controllers/application_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/books_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/concerns/paginatable.rb": {
+          "line": 100.0
+        },
+        "app/controllers/concerns/sortable.rb": {
+          "line": 100.0
+        },
+        "app/controllers/loans_controller.rb": {
+          "line": 95.23
+        },
+        "app/jobs/application_job.rb": {
+          "line": 100.0
+        },
+        "app/jobs/send_due_reminders_job.rb": {
+          "line": 100.0
+        },
+        "app/mailers/loan_mailer.rb": {
+          "line": 100.0
+        },
+        "app/models/application_record.rb": {
+          "line": 100.0
+        },
+        "app/models/book.rb": {
+          "line": 100.0
+        },
+        "app/models/concerns/system_generated_number.rb": {
+          "line": 90.47
+        },
+        "app/models/loan.rb": {
+          "line": 100.0
+        },
+        "app/models/reader.rb": {
+          "line": 100.0
+        },
+        "app/presenters/application_presenter.rb": {
+          "line": 66.66
+        },
+        "app/presenters/book_presenter.rb": {
+          "line": 100.0
+        },
+        "app/presenters/loan_presenter.rb": {
+          "line": 100.0
+        },
+        "app/presenters/reader_presenter.rb": {
+          "line": 100.0
+        }
+      }
+    },
+    {
+      "created_at": "2026-11-19T09:40:33Z",
+      "branch": null,
+      "commit": null,
+      "totals": {
+        "line": 97.88
+      },
+      "groups": {
+        "Controllers": {
+          "line": 98.86
+        },
+        "Jobs": {
+          "line": 100.0
+        },
+        "Mailers": {
+          "line": 100.0
+        },
+        "Models": {
+          "line": 96.82
+        },
+        "Ungrouped": {
+          "line": 95.0
+        }
+      },
+      "files": {
+        "app/controllers/application_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/books_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/concerns/paginatable.rb": {
+          "line": 100.0
+        },
+        "app/controllers/concerns/sortable.rb": {
+          "line": 100.0
+        },
+        "app/controllers/loans_controller.rb": {
+          "line": 95.23
+        },
+        "app/jobs/application_job.rb": {
+          "line": 100.0
+        },
+        "app/jobs/send_due_reminders_job.rb": {
+          "line": 100.0
+        },
+        "app/mailers/loan_mailer.rb": {
+          "line": 100.0
+        },
+        "app/models/application_record.rb": {
+          "line": 100.0
+        },
+        "app/models/book.rb": {
+          "line": 100.0
+        },
+        "app/models/concerns/system_generated_number.rb": {
+          "line": 90.47
+        },
+        "app/models/loan.rb": {
+          "line": 100.0
+        },
+        "app/models/reader.rb": {
+          "line": 100.0
+        },
+        "app/presenters/application_presenter.rb": {
+          "line": 66.66
+        },
+        "app/presenters/book_presenter.rb": {
+          "line": 100.0
+        },
+        "app/presenters/loan_presenter.rb": {
+          "line": 100.0
+        },
+        "app/presenters/reader_presenter.rb": {
+          "line": 100.0
+        }
+      }
+    }
+  ]
+}

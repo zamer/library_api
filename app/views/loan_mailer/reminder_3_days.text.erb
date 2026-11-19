@@ -1,0 +1,6 @@
+Hi <%= @reader.full_name %>,
+
+This is a friendly reminder that the book "<%= @book.title %>" (<%= @book.serial_number %>) is due back on <%= @loan.due_at.strftime("%Y-%m-%d") %> (in 3 days).
+
+Best regards,
+The Library
