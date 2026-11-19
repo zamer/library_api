@@ -19,7 +19,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "rubocop-rails-omakase", require: false
   gem "faker"
-  gem "shoulda-matchers", "~> 6.0"
+  gem "shoulda-matchers", "~> 8.0"
   gem "database_cleaner-active_record"
 end
 

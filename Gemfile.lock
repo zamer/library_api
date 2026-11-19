@@ -164,7 +164,9 @@ GEM
       net-smtp
     marcel (1.2.1)
     mini_mime (1.1.5)
-    minitest (5.27.0)
+    minitest (6.1.0)
+      drb (~> 2.0)
+      prism (>= 1.5, < 3)
     msgpack (1.8.7)
     net-imap (0.6.8)
       date
@@ -308,8 +310,8 @@ GEM
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
-    shoulda-matchers (6.5.0)
-      activesupport (>= 5.2.0)
+    shoulda-matchers (8.0.1)
+      activesupport (>= 7.2)
     sidekiq (7.3.9)
       base64
       connection_pool (>= 2.3.0)
@@ -365,7 +367,7 @@ DEPENDENCIES
   rspec-rails (~> 6.1)
   rspec_junit_formatter
   rubocop-rails-omakase
-  shoulda-matchers (~> 6.0)
+  shoulda-matchers (~> 8.0)
   sidekiq (~> 7.2)
   sidekiq-cron (~> 1.12)
   simplecov
