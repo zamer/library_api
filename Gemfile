@@ -25,7 +25,7 @@ end
 
 group :development do
   gem "letter_opener"
-  gem "letter_opener_web", "~> 2.0"
+  gem "letter_opener_web", "~> 3.0"
   gem "web-console"
 end
 
