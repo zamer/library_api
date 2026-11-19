@@ -15,7 +15,7 @@ gem "kaminari", ">= 1.3.3"
 
 group :development, :test do
   gem "debug", platforms: %i[mri windows]
-  gem "rspec-rails", "~> 6.1"
+  gem "rspec-rails", "~> 8.1"
   gem "factory_bot_rails"
   gem "rubocop-rails-omakase", require: false
   gem "faker"
